@@ -1,12 +1,12 @@
 Summary:	Netlink sockets library
 Name:		libnl
-Version:	3.2.21
+Version:	3.2.22
 Release:	1
 Epoch:		1
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	http://www.infradead.org/~tgr/libnl/files/%{name}-%{version}.tar.gz
-# Source0-md5:	6fe7136558a9071e70673dcda38545b3
+# Source0-md5:	2e1c889494d274aca24ce5f6a748e66e
 Patch0:		%{name}-link.patch
 URL:		http://www.infradead.org/~tgr/libnl/
 BuildRequires:	autoconf
