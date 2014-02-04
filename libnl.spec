@@ -1,12 +1,12 @@
 Summary:	Netlink sockets library
 Name:		libnl
-Version:	3.2.23
+Version:	3.2.24
 Release:	1
 Epoch:		1
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	http://www.infradead.org/~tgr/libnl/files/%{name}-%{version}.tar.gz
-# Source0-md5:	438f8f0a3d46eb90771c9aa2af41590e
+# Source0-md5:	6e0e7bad0674749d930dd9f285343d55
 Patch0:		%{name}-link.patch
 URL:		http://www.infradead.org/~tgr/libnl/
 BuildRequires:	autoconf
@@ -43,7 +43,7 @@ Python wrapper for netlink protocols.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 
 %build
 %{__libtoolize}
@@ -73,7 +73,7 @@ cd python
 	--root=$RPM_BUILD_ROOT
 %py_postclean
 
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libnl/cli/*/*.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/{,libnl/cli/*/}*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -98,11 +98,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libnl-3.so.200
 %attr(755,root,root) %ghost %{_libdir}/libnl-cli-3.so.200
 %attr(755,root,root) %ghost %{_libdir}/libnl-genl-3.so.200
+%attr(755,root,root) %ghost %{_libdir}/libnl-idiag-3.so.200
 %attr(755,root,root) %ghost %{_libdir}/libnl-nf-3.so.200
 %attr(755,root,root) %ghost %{_libdir}/libnl-route-3.so.200
 %attr(755,root,root) %{_libdir}/libnl-3.so.*.*.*
 %attr(755,root,root) %{_libdir}/libnl-cli-3.so.*.*.*
 %attr(755,root,root) %{_libdir}/libnl-genl-3.so.*.*.*
+%attr(755,root,root) %{_libdir}/libnl-idiag-3.so.*.*.*
 %attr(755,root,root) %{_libdir}/libnl-nf-3.so.*.*.*
 %attr(755,root,root) %{_libdir}/libnl-route-3.so.*.*.*
 
@@ -123,13 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libnl-3.so
 %attr(755,root,root) %{_libdir}/libnl-cli-3.so
 %attr(755,root,root) %{_libdir}/libnl-genl-3.so
+%attr(755,root,root) %{_libdir}/libnl-idiag-3.so
 %attr(755,root,root) %{_libdir}/libnl-nf-3.so
 %attr(755,root,root) %{_libdir}/libnl-route-3.so
-%{_libdir}/libnl-3.la
-%{_libdir}/libnl-cli-3.la
-%{_libdir}/libnl-genl-3.la
-%{_libdir}/libnl-nf-3.la
-%{_libdir}/libnl-route-3.la
 %{_includedir}/libnl3
 %{_pkgconfigdir}/libnl-3.0.pc
 %{_pkgconfigdir}/libnl-cli-3.0.pc
@@ -140,13 +138,17 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python-netlink
 %defattr(644,root,root,755)
 %attr(755,root,root) %{py_sitedir}/netlink/_capi.so
+%attr(755,root,root) %{py_sitedir}/netlink/genl/_capi.so
 %attr(755,root,root) %{py_sitedir}/netlink/route/_capi.so
 %dir %{py_sitedir}/netlink
+%dir %{py_sitedir}/netlink/genl
 %dir %{py_sitedir}/netlink/route
 %dir %{py_sitedir}/netlink/route/links
 %dir %{py_sitedir}/netlink/route/qdisc
 %{py_sitedir}/netlink/*.py[co]
+%{py_sitedir}/netlink/genl/*.py[co]
 %{py_sitedir}/netlink/route/*.py[co]
 %{py_sitedir}/netlink/route/links/*.py[co]
 %{py_sitedir}/netlink/route/qdisc/*.py[co]
+%{py_sitedir}/netlink-1.0-*-info
 
