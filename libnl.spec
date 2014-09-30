@@ -1,21 +1,19 @@
+# based on PLD Linux spec git://git.pld-linux.org/packages/.git
 Summary:	Netlink sockets library
 Name:		libnl
-Version:	3.2.24
+Version:	3.2.25
 Release:	1
 Epoch:		1
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	http://www.infradead.org/~tgr/libnl/files/%{name}-%{version}.tar.gz
-# Source0-md5:	6e0e7bad0674749d930dd9f285343d55
-Patch0:		%{name}-link.patch
+# Source0-md5:	03f74d0cd5037cadc8cdfa313bbd195c
 URL:		http://www.infradead.org/~tgr/libnl/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libtool
-BuildRequires:	python-devel
-BuildRequires:	swig-python
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		skip_post_check_so	bfifo.so.0.0.0 blackhole.so.0.0.0 htb.so.0.0.0 pfifo.so.0.0.0 basic.so.0.0.0 cgroup.so.0.0.0
@@ -33,17 +31,8 @@ Requires:	%{name} = %{epoch}:%{version}-%{release}
 %description devel
 Header files for libnl library.
 
-%package -n python-netlink
-Summary:	Python wrapper for netlink protocols
-Group:		Libraries/Python
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-
-%description -n python-netlink
-Python wrapper for netlink protocols.
-
 %prep
 %setup -q
-#%patch0 -p1
 
 %build
 %{__libtoolize}
@@ -56,22 +45,11 @@ Python wrapper for netlink protocols.
 	--disable-static
 %{__make}
 
-cd python
-CFLAGS="%{rpmcflags}" \
-LDFLAGS="%{rpmldflags} -L$(pwd)/../lib/.libs" \
-%{__python} setup.py build
-
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-
-cd python
-%{__python} setup.py install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
-%py_postclean
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/{,libnl/cli/*/}*.la
 
@@ -134,21 +112,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/libnl-genl-3.0.pc
 %{_pkgconfigdir}/libnl-nf-3.0.pc
 %{_pkgconfigdir}/libnl-route-3.0.pc
-
-%files -n python-netlink
-%defattr(644,root,root,755)
-%attr(755,root,root) %{py_sitedir}/netlink/_capi.so
-%attr(755,root,root) %{py_sitedir}/netlink/genl/_capi.so
-%attr(755,root,root) %{py_sitedir}/netlink/route/_capi.so
-%dir %{py_sitedir}/netlink
-%dir %{py_sitedir}/netlink/genl
-%dir %{py_sitedir}/netlink/route
-%dir %{py_sitedir}/netlink/route/links
-%dir %{py_sitedir}/netlink/route/qdisc
-%{py_sitedir}/netlink/*.py[co]
-%{py_sitedir}/netlink/genl/*.py[co]
-%{py_sitedir}/netlink/route/*.py[co]
-%{py_sitedir}/netlink/route/links/*.py[co]
-%{py_sitedir}/netlink/route/qdisc/*.py[co]
-%{py_sitedir}/netlink-1.0-*-info
 
