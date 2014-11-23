@@ -14,6 +14,7 @@ BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libtool
+BuildRequires:	pkg-config
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		skip_post_check_so	bfifo.so.0.0.0 blackhole.so.0.0.0 htb.so.0.0.0 pfifo.so.0.0.0 basic.so.0.0.0 cgroup.so.0.0.0
